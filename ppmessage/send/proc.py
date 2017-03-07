@@ -362,18 +362,19 @@ class Proc():
     def ack(self, _code):
         if self._pcsocket == None:
             return
-        _host = self._pcsocket.get("host")
-        _port = self._pcsocket.get("port")
         _device_uuid = self._pcsocket.get("device_uuid")
-        if _host == None or _port == None or _device_uuid == None:
+        if _device_uuid == None:
             return
         _body = {
             "device_uuid": _device_uuid,
             "what": DIS_WHAT.SEND,
             "code": _code,
-            "extra": {"uuid": self._uuid, "conversation_uuid": self._conversation_uuid},
+            "extra": {
+                "uuid": self._uuid,
+                "conversation_uuid": self._conversation_uuid
+            },
         }
-        _key = REDIS_ACK_NOTIFICATION_KEY + ".host." + _host + ".port." + _port
+        _key = REDIS_ACK_NOTIFICATION_KEY
         self._redis.rpush(_key, json.dumps(_body))
         return
     

@@ -68,23 +68,3 @@ class DispatcherWebService(AbstractWebService):
     def get_delegate(cls, app):
         return DispatcherDelegate(app)
 
-class DispatcherApp(tornado.web.Application):
-    def __init__(self):
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
-        return
-
-    def get_delegate(self, name):
-        return DispatcherDelegate(self)
-
-def _main():
-    import sys
-    reload(sys)
-    sys.setdefaultencoding('utf8')
-    tornado.options.parse_command_line()
-    _app = DispatcherApp()
-    _app.get_delegate("").run_periodic()
-    logging.info("Starting dis service......")
-    tornado.ioloop.IOLoop.instance().start()
-
-if __name__ == "__main__":
-    _main()

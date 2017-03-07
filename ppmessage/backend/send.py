@@ -64,22 +64,3 @@ class SendWebService(AbstractWebService):
     def get_delegate(cls, app):
         return SendDelegate(app)
     
-class SendApp(tornado.web.Application):
-    def __init__(self):
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
-        return
-    
-    def get_delegate(self, name):
-        return SendDelegate(self)
-
-def _main():
-    tornado.options.parse_command_line()
-    
-    _app = SendApp()
-    _app.get_delegate("").run_periodic()
-    
-    logging.info("Starting send service......")
-    tornado.ioloop.IOLoop.instance().start()
-        
-if __name__ == "__main__":
-    _main()

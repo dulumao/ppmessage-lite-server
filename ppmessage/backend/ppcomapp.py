@@ -59,15 +59,4 @@ class PPComWebService(AbstractWebService):
     def get_delegate(cls, app):
         return PPComDelegate(app)
     
-class PPComApp(tornado.web.Application):
-    
-    def __init__(self):
-        settings = {}
-        settings["debug"] = True
-        settings["cookie_secret"] = "24oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo="
-        settings["template_path"]= os.path.join(os.path.dirname(__file__), "../resource/template")
-        tornado.web.Application.__init__(self, PPComWebService.get_handlers(), **settings)
-
-    def get_delegate(self, name):
-        return PPComDelegate(self)
     

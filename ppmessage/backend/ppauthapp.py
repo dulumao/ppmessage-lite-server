@@ -50,17 +50,3 @@ class PPAuthWebService(AbstractWebService):
     def get_delegate(cls, app):
         return PPAuthDelegate(app)
     
-class PPAuthApp(tornado.web.Application):
-    
-    def __init__(self):
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
-
-        settings = {
-            "debug": True,
-        }
-        
-        tornado.web.Application.__init__(self, PPAuthWebService.get_handlers(), **settings)
-    
-    def get_delegate(self, name):
-        return PPAuthDelegate(self)
-    

@@ -158,13 +158,4 @@ class PPKefuWebService(AbstractWebService):
     def get_delegate(cls, app):
         return PPKefuDelegate(app)
 
-class PPKefuApp(tornado.web.Application):
-    
-    def __init__(self):
-        settings = {}
-        settings["debug"] = True
-        settings["cookie_secret"] = "PzEMu2OLSsKGTH2cnyizyK+ydP38CkX3rhbmGPqrfBs="
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
-        DownloadHandler.set_cls_redis(self.redis)
-        tornado.web.Application.__init__(self, PPKefuWebService.get_handlers(), **settings)
 

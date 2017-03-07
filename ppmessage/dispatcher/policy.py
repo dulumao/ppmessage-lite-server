@@ -26,8 +26,6 @@ from ppmessage.db.models import DeviceUser
 from ppmessage.db.models import DeviceInfo
 from ppmessage.db.models import MessagePush
 from ppmessage.db.models import MessagePushTask
-from ppmessage.db.models import PCSocketInfo
-from ppmessage.db.models import PCSocketDeviceData
 from ppmessage.db.models import ConversationUserData
 
 from ppmessage.core.redis import redis_hash_to_dict
@@ -189,20 +187,6 @@ class AbstractPolicy(Policy):
         logging.info("online : %d, %s" % (len(self._online_users), self._online_users))
         logging.info("offline : %d, %s" % (len(self._offline_users), self._offline_users))
         return
-
-    def _pcsocket_data(self, _device_uuid):
-        _redis = self._redis
-        _key = PCSocketDeviceData.__tablename__ + ".device_uuid." + _device_uuid
-        _pc_socket_uuid = _redis.get(_key)
-        if _pc_socket_uuid == None:
-            logging.error("device no pcsocket %s" % _device_uuid)
-            return None
-        _info = redis_hash_to_dict(_redis, PCSocketInfo, _pc_socket_uuid)
-        if _info == None:
-            logging.error("dispatcher cant not find pcsocket %s" % str(_pc_socket_uuid))
-            return None
-        _d = {"host": _info["host"], "port": _info["port"], "device_uuid": _device_uuid}
-        return _d
     
     def _push_to_db(self, _user_uuid, _status=MESSAGE_STATUS.PUSHED):
         _values = {
@@ -217,12 +201,7 @@ class AbstractPolicy(Policy):
         _row.create_redis_keys(self._redis)
         return _row.uuid
     
-    def _push_to_socket(self, _user_uuid, _device_uuid):
-        _pcsocket = self._pcsocket_data(_device_uuid)
-        if _pcsocket == None:
-            logging.error("no pcsocket data for: %s" % _device_uuid)
-            return
-        
+    def _push_to_socket(self, _user_uuid, _device_uuid):        
         _device = self._devices_hash.get(_device_uuid)
 
         # if _device == None:
@@ -252,10 +231,12 @@ class AbstractPolicy(Policy):
         _body["pid"] = _device.get("push_uuid")
         _body["from_user"] = _from_user
         _push = {
-            "pcsocket": _pcsocket,
-            "body": _body
+           "pcsocket": {
+              "device_uuid": _device_uuid
+           },
+           "body": _body
         }
-        _key = REDIS_PUSH_NOTIFICATION_KEY + ".host." + _pcsocket["host"] + ".port." + _pcsocket["port"]
+        _key = REDIS_PUSH_NOTIFICATION_KEY
         self._redis.rpush(_key, json.dumps(_push))
         return
         
