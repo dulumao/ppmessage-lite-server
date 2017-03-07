@@ -27,7 +27,6 @@ from ppmessage.cache.cacheapp import CacheWebService
 from ppmessage.backend.ppcomapp import PPComWebService
 from ppmessage.backend.ppkefuapp import PPKefuWebService
 from ppmessage.backend.ppauthapp import PPAuthWebService
-from ppmessage.backend.ppconfigapp import PPConfigWebService
 from ppmessage.backend.dispatcher import DispatcherWebService
 from ppmessage.backend.identiconapp import IdenticonWebService
 from ppmessage.pcsocket.pcsocketapp import PCSocketWebService
@@ -47,10 +46,7 @@ tornado.options.define("main_port", default=MAIN_PORT, help="", type=int)
 
 class EntryHandler(tornado.web.RequestHandler):
     def get(self):
-        if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.RESTART:
-            self.redirect("/ppconfig/")
-        else:
-            self.redirect("/ppkefu/")
+        self.redirect("/ppkefu/")
         return
 
 class MainApplication(tornado.web.Application):

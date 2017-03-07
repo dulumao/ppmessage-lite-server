@@ -61,4 +61,4 @@ sudo pip install \
      xlrd
 
 
-echo "Finish install the PPMessage requirements successfully, have fun with PPMessage"
+echo "Finish install the requirements successfully, have fun with PPMessage"

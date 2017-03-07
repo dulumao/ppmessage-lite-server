@@ -105,7 +105,4 @@ pip install \
     tornado \
     xlrd
 
-# to support mysql/postgresql needs more installation
-# apt-get install mysql-server postgresql libpq-dev
-# pip install pymysql psycopg2
-echo "Finish install the requirements of PPMessage, next to run ppmessage.py to start PPMessage."
+echo "Finish install the requirements of PPMessage Lite Server."
