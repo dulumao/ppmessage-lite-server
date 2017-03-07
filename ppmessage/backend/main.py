@@ -85,13 +85,8 @@ class MainApplication(tornado.web.Application):
         return
 
     def load_db_to_cache(self):
-        if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.FIRST:
-            self.redis.flushdb()
-            return
-        else:
-            from ppmessage.core.utils.db2cache import load
-            load(self.redis)
         return
+    
     def copy_default_icon(self):
         if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.FIRST:
             return

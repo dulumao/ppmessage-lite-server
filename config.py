@@ -35,6 +35,8 @@ import redis
 import errno    
 import logging
 import traceback
+import base64
+import hashlib
 
 import tornado.ioloop
 import tornado.options
@@ -184,7 +186,7 @@ class FirstHandler():
             user_icon=_user_icon,
             user_status=USER_STATUS.OWNER_2,
             user_fullname=_user_fullname,
-            user_password=_user_password,
+            user_password=hashlib.sha1(_user_password).hexdigest(),
             is_removed_user=False,
             is_owner_user=True,
             is_service_user=True,
@@ -214,8 +216,6 @@ class FirstHandler():
 
     def _create_api(self, _request):
         from ppmessage.db.models import ApiInfo
-        import hashlib
-        import base64
         _user_uuid = self._user_uuid
 
         def _encode(_key):
@@ -239,11 +239,7 @@ class FirstHandler():
 
         _config = {
             API_LEVEL.PPCOM.lower(): _info(API_LEVEL.PPCOM),
-            API_LEVEL.PPKEFU.lower(): _info(API_LEVEL.PPKEFU),
-            API_LEVEL.PPCONSOLE.lower(): _info(API_LEVEL.PPCONSOLE),
-            API_LEVEL.PPCONSOLE_BEFORE_LOGIN.lower(): _info(API_LEVEL.PPCONSOLE_BEFORE_LOGIN),
-            API_LEVEL.THIRD_PARTY_KEFU.lower(): _info(API_LEVEL.THIRD_PARTY_KEFU),
-            API_LEVEL.THIRD_PARTY_CONSOLE.lower(): _info(API_LEVEL.THIRD_PARTY_CONSOLE)
+            API_LEVEL.PPKEFU.lower(): _info(API_LEVEL.PPKEFU)
         }
         self._api = _config
         return True
