@@ -118,7 +118,7 @@ class ServerHandler():
         _identicon_store = _cur + "/ppmessage/resource/data/identicon"            
 
         _server = {
-            "url": "http://127.0.0.1:8945",
+            "url": "http://" + get_ip_address() + ":8945",
             "generic_store": _generic_store,
             "identicon_store": _identicon_store
         }
@@ -291,8 +291,6 @@ class FirstHandler():
         return True
 
     def post(self, _request):
-
-        logging.info("firstrequest: %s" % _request)
         
         if not self._create_user(_request):
             return False
@@ -339,7 +337,8 @@ def _main():
         "user_password": _user_password,
         "user_fullname": _user_email
     })
-    
+
+    logging.info("Config done, run lite.py to start PPMessage Lite Server.")
     return
 
 if __name__ == "__main__":

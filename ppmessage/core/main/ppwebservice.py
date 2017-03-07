@@ -55,7 +55,6 @@ def get_total_handlers():
 def get_total_delegates(app):
     delegates = {}
     for i in _registry:
-        logging.info(_registry[i].name())
         delegates[_registry[i].name()] = _registry[i].get_delegate(app)
     return delegates
     

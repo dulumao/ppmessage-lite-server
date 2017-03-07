@@ -17,7 +17,6 @@ def _cur_dir():
     return os.path.dirname(__file__)
 
 def _replace(_d):
-    print("CONFIG WITH %s" % _d)
     _key = _d.get("key")
     _server_url = _d.get("server_url")
     

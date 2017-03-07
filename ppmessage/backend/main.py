@@ -85,8 +85,9 @@ class MainApplication(tornado.web.Application):
         return
 
     def load_db_to_cache(self):
-        return
-    
+        from ppmessage.core.utils.db2cache import load
+        load(self.redis)
+        
     def copy_default_icon(self):
         if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.FIRST:
             return
@@ -103,23 +104,21 @@ def _main():
     import sys
     reload(sys)
     sys.setdefaultencoding('utf8')
-
     tornado.options.parse_command_line()
 
     _app = MainApplication()
-
+    if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.FIRST:
+        logging.error("Need run `config.py` to config PPMessage Lite Server")
+        return
+    
     _app.copy_default_icon()
-
     _app.load_db_to_cache()
     
     tornado.httpserver.HTTPServer(_app).listen(tornado.options.options.main_port)
     _app.run_periodic()
     
     _str = "Access http://%s:%d/ to use PPMessage."
-    if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.FIRST:
-        logging.error("run config.py to config PPMessage Lite Server")
-    else:
-        logging.info(_str % (get_ip_address(), tornado.options.options.main_port))
+    logging.info(_str % (get_ip_address(), tornado.options.options.main_port))
     tornado.ioloop.IOLoop.instance().start()
     return
 

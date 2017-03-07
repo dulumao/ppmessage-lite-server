@@ -137,7 +137,6 @@ class PPKefuWebService(AbstractWebService):
         _root = os.path.join(os.path.dirname(__file__), "../resource/assets/ppkefu/assets")
         _generic_store = get_config_server_generic_store()
         if _generic_store == None:
-            logging.error("PPKefu not run for PPMessage not configed")
             return []
         
         handlers = [

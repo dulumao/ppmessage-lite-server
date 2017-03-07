@@ -89,7 +89,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.send_ack({"code": DIS_ERR.NOERR, "what": DIS_WHAT.AUTH})
 
         self.delegate.save_extra(self.user_uuid, self.extra_data)
-        self.delegate.map_device(self.device_uuid)
         self.delegate.device_online(self.device_uuid, True)
 
         self.sockets[self.device_uuid] = self
@@ -220,7 +219,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.sockets[self.device_uuid] = None
         del self.sockets[self.device_uuid]
 
-        self.delegate.unmap_device(self.device_uuid)
         self.delegate.device_online(self.device_uuid, False)
         return
     

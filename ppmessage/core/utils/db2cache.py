@@ -12,6 +12,7 @@ from .datetimeencoder import DateTimeEncoder
 
 from ppmessage.db.dbinstance import getDBSessionClass
 
+from ppmessage.db.models import ApiInfo
 from ppmessage.db.models import AppInfo
 
 from ppmessage.db.models import DeviceUser
@@ -52,22 +53,20 @@ def load(_redis):
         ConversationUserData,
         
         FileInfo,
-        
-        AppInfo,
 
+        ApiInfo,
+        AppInfo,
+                
         MessagePush,
         MessagePushTask
     ]
     
     try:
         for _i in _cls_list:
-            logging.info("Loading %s...", _i.__tablename__)
             _load_generic(_i, _redis, _session)
-            logging.info("Loading .... done.")
     except:
         traceback.print_exc()
     finally:
         _session_class.remove()
-        
-    logging.info("$$$$$$$$$$$ LOAD DONE $$$$$$$$$$$$$")
+
     return
