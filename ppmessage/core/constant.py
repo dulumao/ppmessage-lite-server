@@ -54,7 +54,7 @@ SQL = Enum([
 PP_WEB_SERVICE = Enum([
     "META",
     "ABSTRACT",
-    "UPLOAD",
+    "PPUPLOAD",
     "DOWNLOAD",
     "API",
     "PCSOCKET",

@@ -129,11 +129,11 @@ class UploadWebService(AbstractWebService):
     @classmethod
     def name(cls):
         # the same with nginx upload
-        return PP_WEB_SERVICE.UPLOAD
+        return PP_WEB_SERVICE.PPUPLOAD
 
     @classmethod
     def get_handlers(cls):
-        return [(r"/upload/(.*)", UploadFileHandler)]
+        return [(r"/ppupload/(.*)", UploadFileHandler)]
 
     @classmethod
     def get_delegate(cls, app):
