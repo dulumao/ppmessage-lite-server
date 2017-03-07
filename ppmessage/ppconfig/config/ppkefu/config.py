@@ -53,7 +53,7 @@ if __name__ == "__main__":
     from ppmessage.core.constant import API_LEVEL
     from ppmessage.core.constant import CONFIG_STATUS
     from ppmessage.core.utils.config import _get_config
-    if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.RESTART:
+    if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.FIRST:
         print("PPMessage not configed.")
         sys.exit()
         

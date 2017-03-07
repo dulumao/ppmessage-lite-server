@@ -92,7 +92,7 @@ def _main():
     from ppmessage.core.constant import CONFIG_STATUS
     from ppmessage.core.utils.config import _get_config
 
-    if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.RESTART:
+    if _get_config() == None or _get_config().get("config_status") != CONFIG_STATUS.FIRST:
         print("PPMessage not configed.")
         return
     
