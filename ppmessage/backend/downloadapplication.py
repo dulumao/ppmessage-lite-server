@@ -30,29 +30,14 @@ class DownloadWebService(AbstractWebService):
 
     @classmethod
     def name(cls):
-        return PP_WEB_SERVICE.DOWNLOAD
+        return PP_WEB_SERVICE.PPDOWNLOAD
 
     @classmethod
     def get_handlers(cls):
-        return [("/download/([^\/]+)?$", DownloadHandler, {"path": "/"})]
+        return [("/ppdownload/([^\/]+)?$", DownloadHandler, {"path": "/"})]
 
     @classmethod
     def get_delegate(cls, app):
         return DownloadDelegate(app)
     
-class DownloadApplication(Application):
-    
-    def __init__(self):
-        settings = {}
-        settings["debug"] = True
-        handlers = []
-
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
-        DownloadHandler.set_cls_redis(self.redis)        
-        Application.__init__(self, DownloadWebService.get_handlers(), **settings)
-
-        return
-
-    def get_delegate(self, name):
-        return DownloadDelegate(self)
     

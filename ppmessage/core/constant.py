@@ -55,7 +55,7 @@ PP_WEB_SERVICE = Enum([
     "META",
     "ABSTRACT",
     "PPUPLOAD",
-    "DOWNLOAD",
+    "PPDOWNLOAD",
     "API",
     "PCSOCKET",
     "PPCOM",
