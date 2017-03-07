@@ -29,7 +29,6 @@ from ppmessage.core.utils.datetimestring import now_to_string
 from ppmessage.db.models import AppInfo
 from ppmessage.db.models import DeviceInfo
 from ppmessage.db.models import ConversationUserData
-from ppmessage.db.models import UserNavigationData
 
 from ppmessage.dispatcher.policy import BroadcastPolicy
 
@@ -72,20 +71,6 @@ class PCSocketDelegate():
         return
     
     def save_extra(self, _user_uuid, _extra_data):
-        if _extra_data == None:
-            return
-
-        _visit_page_url = None
-        if isinstance(_extra_data, dict):
-            _visit_page_url = _extra_data.get("href")
-            _extra_data = json.dumps(_extra_data)
-            
-        _row = UserNavigationData(uuid=str(uuid.uuid1()),
-                                  user_uuid=_user_uuid,
-                                  visit_page_url=_visit_page_url,
-                                  navigation_data=_extra_data)
-        _row.async_add(self.redis)
-        _row.create_redis_keys(self.redis)
         return
     
     def ack_loop(self):

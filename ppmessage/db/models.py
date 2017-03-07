@@ -60,8 +60,7 @@ class DeviceUser(CommonMixin, BaseModel):
     
     # zh_cn/en_us/zh_tw
     user_language = Column("user_language", String(32))
-        
-    
+          
     # ppcom portal user
     is_anonymous_user = Column("is_anonymous_user", Boolean)
     is_service_user = Column("is_service_user", Boolean)
@@ -74,14 +73,9 @@ class DeviceUser(CommonMixin, BaseModel):
     # lastest_send_message_time for idle algorithm
     latest_send_message_time = Column("latest_send_message_time", DateTime)
 
-    geolite_latitude = Column("geolite_latitude", Float)
-    geolite_longitude = Column("geolite_longitude", Float)
-
     # which is uuid of other/third party system
     ent_user_uuid = Column("ent_user_uuid", String(64))
     ent_user_createtime = Column("ent_user_createtime", DateTime)
-
-    company_uuid = Column("company_uuid", String(64))
     
     __table_args__ = (
     )
@@ -395,15 +389,9 @@ class AppInfo(CommonMixin, BaseModel):
     app_secret = Column("app_secret", String(64))
     
     app_name = Column("app_name", String(64))
-    company_name = Column("company_name", String(64))
     
-    app_icon = Column("app_icon", String(512))
-
-    app_route_policy = Column("app_route_policy", String(64))
-            
+    app_icon = Column("app_icon", String(512))            
     welcome_message = Column("welcome_message", String(512))
-    ppcom_launcher_color = Column("ppcom_launcher_color", String(16))
-
     
     __table_args__ = (
     )
@@ -586,131 +574,6 @@ class ConversationUserData(CommonMixin, BaseModel):
         CommonMixin.delete_redis_keys(self, _redis)
         return
 
-# PCSOCKET CLUSTER
-class PCSocketInfo(CommonMixin, BaseModel):
-    __tablename__ = "pc_socket_infos"
-
-    host = Column("host", String(64))
-    port = Column("port", String(16))
-    latest_register_time = Column("latest_register_time", DateTime)
-    
-    __table_args__ = (
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(PCSocketInfo, self).__init__(*args, **kwargs)
-        return
-
-    def create_redis_keys(self, _redis, *args, **kwargs):
-        _key = self.__tablename__ \
-               + ".host." + self.host \
-               + ".port." + self.port
-        _redis.set(_key, self.uuid)
-        CommonMixin.create_redis_keys(self, _redis, *args, **kwargs)
-        return
-
-    def delete_redis_keys(self, _redis):
-        _obj = redis_hash_to_dict(_redis, PCSocketInfo, self.uuid)
-        if _obj == None:
-            return
-        _key = self.__tablename__ \
-               + ".host." + _obj["host"] \
-               + ".port." + _obj["port"]
-        _redis.delete(_key)
-        CommonMixin.delete_redis_keys(self, _redis)
-        return
-
-
-class PCSocketDeviceData(CommonMixin, BaseModel):
-    __tablename__ = "pc_socket_device_datas"
-
-    pc_socket_uuid = Column("pc_socket_uuid", String(64))
-    device_uuid = Column("device_uuid", String(64))
-    
-    __table_args__ = (
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(PCSocketDeviceData, self).__init__(*args, **kwargs)
-        return
-    
-    def create_redis_keys(self, _redis, *args, **kwargs):
-        _key = self.__tablename__ \
-               + ".pc_socket_uuid." + self.pc_socket_uuid \
-               + ".device_uuid." + self.device_uuid
-        _redis.set(_key, self.uuid)
-
-        _key = self.__tablename__ \
-               + ".device_uuid." + self.device_uuid
-        _redis.set(_key, self.pc_socket_uuid)
-
-        _key = self.__tablename__ \
-               + ".pc_socket_uuid." + self.pc_socket_uuid
-        _redis.sadd(_key, self.device_uuid)
-        
-        CommonMixin.create_redis_keys(self, _redis, *args, **kwargs)
-        return
-
-    def delete_redis_keys(self, _redis):
-        _obj = redis_hash_to_dict(_redis, PCSocketDeviceData, self.uuid)
-        if _obj == None or _obj["pc_socket_uuid"] == None or _obj["device_uuid"] == None:
-            return
-
-        _key = self.__tablename__ \
-               + ".pc_socket_uuid." + _obj["pc_socket_uuid"] \
-               + ".device_uuid." + _obj["device_uuid"]
-        _redis.delete(_key)
-
-        _key = self.__tablename__ \
-               + ".device_uuid." + _obj["device_uuid"]
-        _redis.delete(_key)
-
-        _key = self.__tablename__ \
-               + ".pc_socket_uuid." + _obj["pc_socket_uuid"]
-        _redis.srem(_key, _obj["device_uuid"])
-        
-        CommonMixin.delete_redis_keys(self, _redis)
-        return
-
-class UserNavigationData(CommonMixin, BaseModel):
-    __tablename__ = "user_navigation_datas"
-
-    user_uuid = Column("user_uuid", String(64))
-    visit_page_url = Column("visit_page_url", String(1024))
-    navigation_data = Column("navigation_data", String(2048))
-    
-    __table_args__ = (
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(UserNavigationData, self).__init__(*args, **kwargs)
-        return
-    
-    def create_redis_keys(self, _redis, *args, **kwargs):
-        CommonMixin.create_redis_keys(self, _redis, *args, **kwargs)
-
-        _key = self.__tablename__  + ".user_uuid." + self.user_uuid
-        _createtime = time.mktime(self.createtime.timetuple())*1000*1000 + self.createtime.microsecond
-        _v = json.dumps([_createtime, self.navigation_data])
-        _redis.zadd(_key, _v, _createtime)
-
-        if self.visit_page_url != None:
-            _key = self.__tablename__  + ".user_uuid." + self.user_uuid + ".visit_page_url"
-            _redis.set(_key, visit_page_url)
-        return
-
-    def delete_redis_keys(self, _redis):
-        _obj = redis_hash_to_dict(_redis, UserNavigationData, self.uuid)
-        if _obj == None:
-            return
-
-        _key = self.__tablename__  + ".user_uuid." + _obj["user_uuid"]
-        _createtime = time.mktime(_obj["createtime"].timetuple())*1000*1000 + _obj["createtime"].microsecond
-        _v = json.dumps([_createtime, _obj["navigation_data"]])
-        _redis.zrem(_key, _v)
-        
-        CommonMixin.delete_redis_keys(self, _redis)
-        return
 
 class ApiInfo(CommonMixin, BaseModel):
     __tablename__ = "api_infos"
@@ -797,43 +660,3 @@ class ApiTokenData(CommonMixin, BaseModel):
         return
 
 
-class CompanyInfo(CommonMixin, BaseModel):
-    __tablename__ = "company_infos"
-
-    ent_company_uuid = Column("ent_company_uuid", String(64))
-    ent_company_createtime = Column("ent_company_createtime", DateTime)
-    
-    company_name = Column("company_name", String(64))
-    company_fullname = Column("company_fullname", String(256))
-
-    company_icon = Column("company_icon", String(512))
-    company_address = Column("company_address", String(256))
-    company_phone = Column("company_phone", String(32))
-    company_email = Column("company_email", String(64))
-
-
-    extra_field_datas = Column("extra_field_datas", String(4096))
-    
-    __table_args__ = (
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        return
-        
-    def create_redis_keys(self, _redis, *args, **kwargs):
-        CommonMixin.create_redis_keys(self, _redis, *args, **kwargs)
-        _key = self.__tablename__
-        _redis.sadd(_key, self.uuid)
-
-        _key = self.__tablename__ + ".ent_company_uuid." + self.ent_company_uuid
-        _redis.set(_key, self.uuid)
-        return
-
-    def delete_redis_keys(self, _redis):
-        CommonMixin.delete_redis_keys(self, _redis)
-        return    
-
-    def update_redis_keys(self, _redis):            
-        CommonMixin.update_redis_keys(self, _redis)
-        return

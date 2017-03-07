@@ -25,11 +25,6 @@ from ppmessage.db.models import FileInfo
 from ppmessage.db.models import ConversationInfo
 from ppmessage.db.models import ConversationUserData
 
-from ppmessage.db.models import PCSocketInfo
-from ppmessage.db.models import PCSocketDeviceData
-
-from ppmessage.db.models import ApiInfo
-from ppmessage.db.models import CompanyInfo
 
 from sqlalchemy import DateTime
 
@@ -59,16 +54,9 @@ def load(_redis):
         FileInfo,
         
         AppInfo,
-        
-        MessagePushTask,
-        MessagePush,
-        
-        PCSocketInfo,
-        PCSocketDeviceData,
 
-        ApiInfo,
-        CompanyInfo
-              
+        MessagePush,
+        MessagePushTask
     ]
     
     try:

@@ -10,9 +10,7 @@ from ppmessage.api.handlers.basehandler import BaseHandler
 from ppmessage.db.models import AppInfo
 from ppmessage.db.models import DeviceUser
 from ppmessage.db.models import DeviceInfo
-from ppmessage.db.models import PCSocketInfo
 from ppmessage.db.models import MessagePushTask
-from ppmessage.db.models import PCSocketDeviceData
 
 from ppmessage.api.error import API_ERR
 
