@@ -47,7 +47,7 @@ if __name__ == "__main__":
     reload(sys)
     sys.setdefaultencoding('utf-8')
 
-    _root_dir = os.path.join(_cur_dir(), "../../../../../ppmessage")
+    _root_dir = os.path.join(_cur_dir(), "../../../../../ppmessage-lite-server")
     sys.path.append(os.path.abspath(_root_dir))
 
     from ppmessage.core.constant import API_LEVEL
