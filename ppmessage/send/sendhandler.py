@@ -22,13 +22,9 @@ class SendHandler():
         logging.info("ppmessage recv %s" % _body)
         _proc = Proc(self._app)
 
-        # AUDIO SUPPORT?
         _proc.register_subtypes([
             MESSAGE_SUBTYPE.TEXT,
-            MESSAGE_SUBTYPE.TXT,
-            MESSAGE_SUBTYPE.IMAGE,
-            MESSAGE_SUBTYPE.AUDIO,
-            MESSAGE_SUBTYPE.FILE
+            MESSAGE_SUBTYPE.IMAGE
         ])
         
         if not _proc.check(_body):

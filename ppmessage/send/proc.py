@@ -148,40 +148,11 @@ class Proc():
             self._message_body = json.dumps({"fid": _fid})
         return True
 
-    def _parse_TXT(self):
-        _fid = json.loads(self._message_body).get("fid")
-        if _fid == None:
-            logging.error("error load txt message: %s" % self._message_body)
-            return False
-        self._message_body = json.dumps({"fid": _fid})
-        return True
-
     def _parse_IMAGE(self):
         _image = self._parseImage(self._message_body)
         if _image == None:
             return False
         self._message_body = json.dumps(_image)
-        return True
-
-    def _parse_DOCUMENT(self):
-        _document = self._parseDocument(self._message_body)
-        if _document == None:
-            return False
-        self._message_body = json.dumps(_document)
-        return True
-
-    def _parse_FILE(self):
-        _generic = self._parseFile(self._message_body)
-        if _generic == None:
-            return False
-        self._message_body = json.dumps(_generic)
-        return True
-
-    def _parse_AUDIO(self):
-        _audio = self._parseAudio(self._message_body)
-        if _audio == None:
-            return False
-        self._message_body = json.dumps(_audio)
         return True
 
     def _parseImage(self, _body):
@@ -239,125 +210,6 @@ class Proc():
 
         # where assume the _thum must be jpeg
         return {"thum":_thum_id, "orig":_fid, "mime":_mime, "orig_width": _image_width, "orig_height": _image_height, "thum_width": _thum_width, "thum_height": _thum_height}
-
-    def _parseDocument(self, _body):
-        _document = json.loads(_body)
-
-        _fid = _document.get("fid")
-        if _fid == None:
-            logging.error("Error for message body of document message")
-            return None
-
-        _info = redis_hash_to_dict(self._redis, FileInfo, _fid)
-        if _info == None:
-            logging.error("Error for no document file info, uuid=%s." % (_fid))
-            return None
-
-        _mime = _info["file_mime"]
-        _size = _info["file_size"]
-        _name = _info["file_name"]
-
-        _r = {
-            "fid": _fid,
-            "mime": _mime,
-            "size": _size,
-            "name": _name,
-        }
-        return _r
-
-
-    def _parseFile(self, _body):
-        _generic = json.loads(_body)
-        _fid = _generic.get("fid")
-        
-        if _fid == None:
-            logging.error("Error for message body of generic file message")
-            return None
-        
-        _info = redis_hash_to_dict(self._redis, FileInfo, _fid)
-        if _info == None:
-            logging.error("Error for no file info, uuid=%s." % (_fid))
-            return None
-            
-        _r = {
-            "fid": _fid,
-            "mime": _info.get("file_mime"),
-            "size": _info.get("file_size"),
-            "name": _generic.get("name") or _info.get("file_name"),
-        }
-        return _r
-
-    def _parseAudio(self, _body):
-        from ppmessage.core.audioconverter import AudioConverter
-
-        _redis = self._redis
-        
-        _audio = json.loads(_body)
-        if "dura" not in _audio or "fid" not in _audio or "mime" not in _audio:
-            logging.error("Error parse audio message body failed.")
-            return None
-
-        _duration = _audio["dura"]
-        _mime = _audio["mime"]
-        _fid = _audio["fid"]
-
-        # m4a is from/for iOS
-        # amr is from/for android
-        # mp3 is for PC
-        _data = read_file(_redis, _fid)
-        if _data == None:
-            logging.error("Error no audio data %s." % (_fid))
-            return None
-
-        _mp3 = None
-        _m4a = None
-        _amr = None
-
-        _fid_mp3 = None
-        _fid_m4a = None
-        _fid_amr = None
-
-        if _mime == "audio/m4a" or "audio/m4a" in _mime:
-            _m4a = AudioConverter.m4a2m4a(_data)
-            _amr = AudioConverter.m4a2amr(_data)
-            _mp3 = AudioConverter.m4a2mp3(_data)
-
-            _fid_m4a = create_file_with_data(_redis, _m4a, "audio/m4a", self._from_uuid)
-            _fid_amr = create_file_with_data(_redis, _amr, "audio/amr", self._from_uuid)
-            _fid_mp3 = create_file_with_data(_redis, _mp3, "audio/mp3", self._from_uuid)
-
-        if _mime == "audio/amr":
-            _amr = _data
-            _m4a = AudioConverter.amr2m4a(_data)
-            _mp3 = AudioConverter.amr2mp3(_data)
-
-            _fid_amr = _fid
-            _fid_m4a = create_file_with_data(_redis, _m4a, "audio/m4a", self._from_uuid)
-            _fid_mp3 = create_file_with_data(_redis, _mp3, "audio/mp3", self._from_uuid)
-
-
-        if _mp3 == None:
-            logging.error("Error no audio converter for mime=%s." % (_mime))
-            return None
-
-        if _fid_m4a == None:
-            logging.error("Error to create m4a file with data, len=%d." % len(_m4a))
-            return None
-
-        if _fid_amr == None:
-            logging.error("Error to create amr file with data, len=%d." % len(_amr))
-            return None
-
-        if _fid_mp3 == None:
-            logging.error("Error to create mp3 file with data, len=%d." % len(_mp3))
-            return None
-
-        return {
-            "m4a": {"dura": _duration, "fid": _fid_m4a},
-            "amr": {"dura": _duration, "fid": _fid_amr},
-            "mp3": {"dura": _duration, "fid": _fid_mp3}
-        }
-
 
     def ack(self, _code):
         if self._pcsocket == None:
