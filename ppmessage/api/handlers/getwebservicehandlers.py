@@ -10,7 +10,6 @@ from .getyvobjectdetailhandler import GetYVObjectDetailHandler
 from .ackmessagehandler import AckMessageHandler
 from .setdeviceinfohandler import SetDeviceInfoHandler
 
-from .ppremoveuserhandler import PPRemoveUserHandler
 from .ppupdateuserhandler import PPUpdateUserHandler
 
 from .ppcomcreatedevicehandler import PPComCreateDeviceHandler
@@ -81,7 +80,6 @@ def getWebServiceHandlers():
     handler_list.append((r"/SET_DEVICE_INFO", SetDeviceInfoHandler))
 
     # PPMESSAGE
-    handler_list.append((r"/PP_REMOVE_USER", PPRemoveUserHandler))
     handler_list.append((r"/PP_UPDATE_USER", PPUpdateUserHandler))
     
     handler_list.append((r"/PP_UPDATE_DEVICE", PPUpdateDeviceHandler))
