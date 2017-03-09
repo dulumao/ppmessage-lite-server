@@ -48,11 +48,8 @@ def create_device_user(redis, request):
     _ent_user_uuid = request.get("ent_user_uuid")
     _ent_user_createtime = request.get("ent_user_createtime")
     
-    import pypinyin
     if not isinstance(_user_fullname, unicode):
         _user_fullname = _user_fullname.decode("utf-8")
-    _user_pinyin = "".join(pypinyin.lazy_pinyin(_user_fullname))
-    _user_py = "".join(pypinyin.lazy_pinyin(_user_fullname, style=pypinyin.FIRST_LETTER))
 
     _values = {
         "uuid": _uuid,
@@ -68,8 +65,6 @@ def create_device_user(redis, request):
         "user_icon": _user_icon,
         "user_fullname": _user_fullname,
         "user_password": _user_password,
-        "user_pinyin": _user_pinyin,
-        "user_py": _user_py,
         "ent_user_uuid": _ent_user_uuid,
         "ent_user_createtime": _ent_user_createtime
     }

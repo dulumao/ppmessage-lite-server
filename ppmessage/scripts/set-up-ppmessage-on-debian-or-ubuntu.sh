@@ -86,23 +86,12 @@ apt-get install -y \
 
 # "pip install -i http://pypi.douban.com/simple xxx" might be faster
 pip install \
-    pillow \
-    phonenumbers \
     StringGenerator \
-    beautifulsoup4 \
-    paramiko \
-    cryptography \
-    filemagic \
+    pillow \
     identicon \
-    pypinyin \
-    pyparsing \
     python-dateutil \
-    python-magic \
-    qrcode \
-    readline \
     redis \
     sqlalchemy \
-    tornado \
-    xlrd
+    tornado
 
 echo "Finish install the requirements of PPMessage Lite Server."
