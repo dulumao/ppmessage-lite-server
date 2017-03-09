@@ -241,7 +241,7 @@ class PPComGetDefaultConversationHandler(BaseHandler):
         # no conversation then queue to AMD create
         # client check uuid field to check
         if not _conversations:
-            # TODO CREATE CONVERSATION FOR THIS USER
-            return self._new_conversation()
+            self._new_conversation()
+            _conversations = self._user_conversations(self._user_uuid)
 
         return self._exist_conversation(_conversations)
