@@ -14,7 +14,6 @@ from ppmessage.core.redis import redis_hash_to_dict
 
 from ppmessage.core.constant import API_LEVEL
 
-from ppmessage.core.utils.deviceuserinfoutils import get_device_user_info
 from ppmessage.core.utils.messageutils import get_message_info
 from ppmessage.core.utils.messageutils import get_message_count
 from ppmessage.core.utils.messageutils import get_app_conversations
@@ -36,7 +35,8 @@ class PPGetConversationListHandler(BaseHandler):
                 continue
 
             # we add user_info here for convenient client to use
-            _data['create_user'] = self._get_user_info(_redis, _data['user_uuid'])
+            _key = "device_users.uuid." + _data.get("user_uuid")
+            _data['create_user'] = self.application.redis.hgetall(_key)
 
             # we add latest message info here for convenient client to use
             _data['latest_message'] = self._get_latest_message(_redis, _data['latest_task'])
