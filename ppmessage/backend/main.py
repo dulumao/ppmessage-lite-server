@@ -57,7 +57,7 @@ class MainApplication(tornado.web.Application):
         settings["cookie_secret"] = "24oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo="
         settings["template_path"]= os.path.join(os.path.dirname(__file__), "../resource/template")
 
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
+        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=2)
 
         DownloadHandler.set_cls_redis(self.redis)
         

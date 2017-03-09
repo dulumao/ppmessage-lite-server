@@ -7,9 +7,6 @@
 
 from .wshandler import WSHandler
 
-from ppmessage.core.constant import REDIS_HOST
-from ppmessage.core.constant import REDIS_PORT
-
 from ppmessage.core.constant import PCSOCKET_SRV
 
 from ppmessage.core.constant import REDIS_ACK_NOTIFICATION_KEY
@@ -141,16 +138,4 @@ class PCSocketWebService(AbstractWebService):
     def get_delegate(cls, app):
         return PCSocketDelegate(app)
 
-class PCSocketApp(Application):
-    
-    def __init__(self):
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
-        settings = {}
-        settings["debug"] = True
-        Application.__init__(self, PCSocketWebService.get_handlers(), **settings)
-        return
-
-    def get_delegate(self, name):
-        return PCSocketDelegate(self)
-    
 

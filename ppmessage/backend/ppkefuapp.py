@@ -7,8 +7,6 @@
 # backend/ppkefuapp.py
 #
 
-from ppmessage.core.constant import REDIS_HOST
-from ppmessage.core.constant import REDIS_PORT
 from ppmessage.core.constant import PP_WEB_SERVICE
 
 from ppmessage.core.singleton import singleton

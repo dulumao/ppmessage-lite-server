@@ -12,8 +12,6 @@ from .updatehandler import UpdateHandler
 from .deletehandler import DeleteHandler
 
 from ppmessage.core.constant import CACHE_TYPE
-from ppmessage.core.constant import REDIS_HOST
-from ppmessage.core.constant import REDIS_PORT
 from ppmessage.core.constant import PP_WEB_SERVICE
 from ppmessage.core.constant import REDIS_CACHE_KEY
 
@@ -82,16 +80,5 @@ class CacheWebService(AbstractWebService):
     @classmethod
     def get_delegate(cls, app):
         return CacheDelegate(app)
-    
-class CacheApp(tornado.web.Application):
-    
-    def __init__(self):
-        self.redis = redis.Redis(REDIS_HOST, REDIS_PORT, db=1)
-        settings = {}
-        settings["debug"] = True
-        tornado.web.Application.__init__(self, [], **settings)
-
-    def get_delegate(self, name):
-        return CacheDelegate(self)
-    
+        
 

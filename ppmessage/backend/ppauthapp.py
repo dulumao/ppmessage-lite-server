@@ -9,8 +9,6 @@
 from ppmessage.ppauth.authhandler import AuthHandler
 from ppmessage.ppauth.tokenhandler import TokenHandler
 
-from ppmessage.core.constant import REDIS_HOST
-from ppmessage.core.constant import REDIS_PORT
 from ppmessage.core.constant import PP_WEB_SERVICE
 from ppmessage.core.main import AbstractWebService
 from ppmessage.core.singleton import singleton
