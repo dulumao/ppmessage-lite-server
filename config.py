@@ -201,7 +201,7 @@ class FirstHandler():
     def _create_team(self, _request):
         from ppmessage.db.models import AppInfo
         
-        _app_name = "PPMessage Lite Test Team"
+        _app_name = "PPMessage Lite Server Test Team"
         _app_uuid = self._app_uuid
         _app_key = str(uuid.uuid1())
         _app_secret = str(uuid.uuid1())
@@ -278,7 +278,7 @@ class FirstHandler():
         _config["api"] = self._api
         _config["team"] = {
             "app_uuid": self._app_uuid,
-            "name": "Test PPMessage Lite Server"
+            "name": "PPMessage Lite Server"
         }
         _config["user"] = {
             "user_uuid": self._user_uuid,
