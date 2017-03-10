@@ -57,7 +57,7 @@ Open your browser and visit `http://127.0.0.1:8945` with `your_login_email_addre
 ```
 
 > Reconfig PPMessage, just remove the file `ppmessage/bootstrap/config.json` and run `config.py` again.
-
+> If update the code repository from github with git pull, you need run config.py again. <strong>THIS IS VERY IMPORTANT.</strong>
 
 > Not working yet? Please fire an issue on Github, thanks. Enjoy!
 
