@@ -49,6 +49,7 @@ Windows需要的额外操作请参考[文档](install-ppmessage-on-windows.md)
 ```
 
 > 删除文件 ppmessage/bootstrap/config.json，再运行 main.py 就可以重新配置。
+> 如果你通过 github 更新了代码，那么需要重新运行 config.py。<strong>这点非常重要！</strong>
 
 打开浏览器访问 http://127.0.0.1:8945，用你配置的`邮箱地址`和`初始化密码`登录。
 
