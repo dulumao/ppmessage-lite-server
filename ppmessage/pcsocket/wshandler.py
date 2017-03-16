@@ -259,10 +259,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         }
         self.write_message(_d)
         return
-
-    def send_logout(self, _body):
-        self._please_logout(self, _body.get("other_device"))
-        return
     
     def check_origin(self, origin):
         return True
