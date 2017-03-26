@@ -1,10 +1,8 @@
 [In English](/README.md)
 
-<strong>为了避免混淆，原项目代码已经移到 [PPMessage Lite Server](https://github.com/PPMESSAGE/ppmessage-lite-server)。</strong>
-
 # PPMessage Lite Server - 皮皮消息，即插即用，纯Python实现。
 
-PPMessage Lite Server 是配合 PPMessage 在线服务[https://ppmessage.com] 提供的一个极简的开源平台，PPMessage Lite Server 能够在服务器接口级别与 PPMessage SaaS 服务兼容，其目标为 PPMessage 的开发者提供一个可以本地部署的服务器，用来在开发中进行测试。
+PPMessage Lite Server 是配合 (PPMessage 在线服务)[https://ppmessage.cn] 提供的一个精简的消息服务器，PPMessage Lite Server 能够在接口级别与 (PPMessage 在线服务)[https://ppmessage.cn]兼容，其目标为 (PPMessage 在线服务)[https://ppmessage.cn]的开发者提供一个可以本地部署的用来测试服务器，方便开发调试。
 
 PPMessage Lite Server 建议部署到 macOS 上，其次 Debian Linux，再其次选择 Windows。
 

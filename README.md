@@ -1,8 +1,5 @@
 
 
-<img src="ppmessage/doc/ppkefu-ppcom.gif" height=400px></img>
-
-
 # PPMessage Lite Server
 
 With [PPMessage](https://ppmessage.com), you can chat with customer via Web or mobile App.
