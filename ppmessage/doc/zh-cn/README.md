@@ -61,7 +61,7 @@ Windows需要的额外操作请参考[文档](install-ppmessage-on-windows.md)
 
 [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-Copyright (c) 2010-2017, PPMESSAGE team and contributors - https://www.ppmessage.com and https://github.com/PPMESSAGE/ppmessage
+Copyright (c) 2010-2017, PPMESSAGE team and contributors - https://ppmessage.cn and https://ppmessage.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

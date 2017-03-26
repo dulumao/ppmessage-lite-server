@@ -67,7 +67,7 @@ PPMessage Lite Server target to be used as testing and developing. So that only 
 
 [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-Copyright (c) 2010-2017, PPMESSAGE team and contributors - https://www.ppmessage.com and https://github.com/PPMESSAGE/ppmessage
+Copyright (c) 2010-2017, PPMESSAGE team and contributors - https://ppmessage.com  and https://ppmessage.cn
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
