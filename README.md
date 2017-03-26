@@ -61,12 +61,6 @@ Open your browser and visit `http://127.0.0.1:8945` with `your_login_email_addre
 
 > Not working yet? Please fire an issue on Github, thanks. Enjoy!
 
-## DOCUMENTS
-
-> Read following document to use and develop. Check More details on [PPMessage Site](https://ppmessage.com).
-
-* [Complete english manual](https://ppmessage.gitbooks.io/ppbook-en/content/)
-
 
 ## LICENSE 
 

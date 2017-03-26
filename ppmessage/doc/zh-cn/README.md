@@ -55,12 +55,6 @@ Windows需要的额外操作请参考[文档](install-ppmessage-on-windows.md)
 
 > 就是这些，不工作？请将日志贴到 Github issue 中，谢谢！
 
- 
-> 完全参考手册，请关注 PPMessage 在 GitBook 上的持续更新
-
-* [中文手册](https://ppmessage.gitbooks.io/ppbook/content/)
-
-
 ## 版权 
 
 > 使用前请仔细阅读版权声明。
